@@ -1,0 +1,8 @@
+{% for playerSeasonStat in playerSeasonStats %}
+    <p>{{ playerSeasonStat.totalPoints }}</p>
+{% endfor %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+</form>
