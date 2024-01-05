@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+  Home Page
+{% endblock %}
+
+{% block content %}
+  <h1>Welcome to the Basketball Video Upload Application</h1>
+  <p>This application allows you to upload and manage highlight videos of basketball games.</p>
+  <nav>
+      <ul>
+          <li><a href="{% url 'basketball_video_upload:list_players' %}">Players</a></li>
+          <li><a href="{% url 'basketball_video_upload:list_games' %}">Games</a></li>
+          <li><a href="{% url 'basketball_video_upload:list_seasons' %}">Seasons</a></li>
+          <li><a href="{% url 'basketball_video_upload:list_player_game_highlight_videos' %}">Player Game Highlight Videos</a></li>
+          <li><a href="{% url 'basketball_video_upload:list_player_game_statistics' %}">Player Game Statistics</a></li>
+          <li><a href="{% url 'basketball_video_upload:list_player_season_statistics' %}">Player Season Statistics</a></li>
+      </ul>
+  </nav>
+{% endblock %}

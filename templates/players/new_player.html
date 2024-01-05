@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+   <div class="container">
+       <h2 class="mt-4">Create Player</h2>
+       <form method="post" class="mt-4">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <button type="submit" class="btn btn-danger">Create</button>
+       </form>
+   </div>
+{% endblock %}
