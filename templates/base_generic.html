@@ -2,15 +2,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Django App{% endblock %}</title>
+    <title>{% block title %}Basketball Video Upload{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<header>
-    <h1>Django App</h1>
-    <nav>
-        <!-- Add your navigation links here -->
-    </nav>
+<header class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Basketball Video Upload App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:list_players' %}">Players</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:list_games' %}">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:list_seasons' %}">Seasons</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'basketball_video_upload:list_player_game_highlight_videos' %}">Player
+                            Game Highlight Videos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:list_player_game_statistics' %}">Player
+                            Game Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:list_player_season_statistics' %}">Player
+                            Season Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:register' %}">Register</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'basketball_video_upload:login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </header>
 <main>
     {% block content %}{% endblock %}
@@ -18,5 +64,7 @@
 <footer>
     <!-- Add your footer content here -->
 </footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

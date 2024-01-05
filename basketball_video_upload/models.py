@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
@@ -20,17 +21,30 @@ class Player(models.Model):
         super().save(*args, **kwargs)
 
 
+class Game(models.Model):
+    season = models.ForeignKey('Season', on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    team_one = models.CharField(max_length=100)
+    team_two = models.CharField(max_length=100)
+
+
 class Season(models.Model):
     season_type = models.CharField(max_length=5, choices=[('AAU', 'AAU'), ('HS', 'High School')])
     season_start_date = models.DateField(null=True, blank=True)
     season_end_date = models.DateField(null=True, blank=True)
 
 
-class PlayerGameStatistic(models.Model):
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+class PlayerGameHighlightVideo(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    game_date = models.DateField(default=timezone.now)
-    team_playing_against = models.CharField(max_length=100)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    video = models.FileField(upload_to='player_game_highlights/')
+    video_name = models.CharField(max_length=100)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class PlayerGameStatistic(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
     points = models.PositiveIntegerField(default=0)
     rebounds = models.PositiveIntegerField(default=0)
     assists = models.PositiveIntegerField(default=0)
@@ -41,24 +55,24 @@ class PlayerGameStatistic(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         player_season_statistic, created = PlayerSeasonStatistic.objects.get_or_create(player=self.player,
-                                                                                       season=self.season)
+                                                                                       season=self.game.season)
         player_season_statistic.total_points = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('points'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('points'))[
                 'points__sum'] or 0
         player_season_statistic.total_rebounds = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('rebounds'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('rebounds'))[
                 'rebounds__sum'] or 0
         player_season_statistic.total_assists = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('assists'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('assists'))[
                 'assists__sum'] or 0
         player_season_statistic.total_turnovers = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('turnovers'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('turnovers'))[
                 'turnovers__sum'] or 0
         player_season_statistic.total_blocks = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('blocks'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('blocks'))[
                 'blocks__sum'] or 0
         player_season_statistic.total_steals = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.season).aggregate(Sum('steals'))[
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('steals'))[
                 'steals__sum'] or 0
         player_season_statistic.save()
 
