@@ -12,7 +12,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register, name='register'),
     path('players/', views.PlayerListView.as_view(), name='list_players'),
-    path('players/new/', views.PlayerCreateView.as_view(), name='create_player'),
     path('games/', views.GameListView.as_view(), name='list_games'),
     path('games/new/', views.GameCreateView.as_view(), name='create_game'),
     path('seasons/', views.SeasonListView.as_view(), name='list_seasons'),

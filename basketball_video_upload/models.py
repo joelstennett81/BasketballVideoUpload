@@ -5,16 +5,22 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class Player(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    height = models.PositiveIntegerField([MinValueValidator(48), MaxValueValidator(96)])
-    weight = models.PositiveIntegerField([MinValueValidator(50), MaxValueValidator(450)])
-    aau_team_name = models.CharField(max_length=100, null=True)
-    high_school_team_name = models.CharField(max_length=100, null=True)
+    is_administrator = models.BooleanField(default=False)
+    is_player = models.BooleanField(default=False)
+
+    first_name = models.CharField(max_length=100, null=True)
+    last_name = models.CharField(max_length=100, null=True)
     birth_date = models.DateField(null=True, blank=True)
-    high_school_graduation_year = models.IntegerField(validators=[MinValueValidator(2000), MaxValueValidator(2099)])
+    height_feet = models.PositiveIntegerField(null=True, blank=True)
+    height_inches = models.PositiveIntegerField(null=True, blank=True)
+    weight_in_lbs = models.PositiveIntegerField(null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    aau_team_name = models.CharField(max_length=100, null=True, blank=True)
+    high_school_team_name = models.CharField(max_length=100, null=True, blank=True)
+    high_school_graduation_year = models.IntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.user = kwargs.pop('user', None) or self.user
@@ -22,35 +28,35 @@ class Player(models.Model):
 
 
 class Game(models.Model):
-    season = models.ForeignKey('Season', on_delete=models.CASCADE)
-    date = models.DateField(default=timezone.now)
-    team_one = models.CharField(max_length=100)
-    team_two = models.CharField(max_length=100)
+    season = models.ForeignKey('Season', on_delete=models.CASCADE, null=True)
+    date = models.DateField(default=timezone.now, null=True)
+    team_one = models.CharField(max_length=100, null=True)
+    team_two = models.CharField(max_length=100, null=True)
 
 
 class Season(models.Model):
-    season_type = models.CharField(max_length=5, choices=[('AAU', 'AAU'), ('HS', 'High School')])
+    season_type = models.CharField(max_length=5, choices=[('AAU', 'AAU'), ('HS', 'High School')], null=True)
     season_start_date = models.DateField(null=True, blank=True)
     season_end_date = models.DateField(null=True, blank=True)
 
 
 class PlayerGameHighlightVideo(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    video = models.FileField(upload_to='player_game_highlights/')
-    video_name = models.CharField(max_length=100)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
+    video = models.FileField(upload_to='player_game_highlights/', null=True)
+    video_name = models.CharField(max_length=100, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class PlayerGameStatistic(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    points = models.PositiveIntegerField(default=0)
-    rebounds = models.PositiveIntegerField(default=0)
-    assists = models.PositiveIntegerField(default=0)
-    turnovers = models.PositiveIntegerField(default=0)
-    blocks = models.PositiveIntegerField(default=0)
-    steals = models.PositiveIntegerField(default=0)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    points = models.PositiveIntegerField(default=0, null=True)
+    rebounds = models.PositiveIntegerField(default=0, null=True)
+    assists = models.PositiveIntegerField(default=0, null=True)
+    turnovers = models.PositiveIntegerField(default=0, null=True)
+    blocks = models.PositiveIntegerField(default=0, null=True)
+    steals = models.PositiveIntegerField(default=0, null=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -69,21 +75,16 @@ class PlayerGameStatistic(models.Model):
             PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('turnovers'))[
                 'turnovers__sum'] or 0
         player_season_statistic.total_blocks = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('blocks'))[
-                'blocks__sum'] or 0
-        player_season_statistic.total_steals = \
-            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('steals'))[
-                'steals__sum'] or 0
-        player_season_statistic.save()
+            PlayerGameStatistic.objects.filter(player=self.player, season=self.game.season).aggregate(Sum('blocks'))
 
 
 class PlayerSeasonStatistic(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    season = models.ForeignKey(Season, on_delete=models.CASCADE)
-    total_points = models.PositiveIntegerField(default=0)
-    total_rebounds = models.PositiveIntegerField(default=0)
-    total_assists = models.PositiveIntegerField(default=0)
-    total_turnovers = models.PositiveIntegerField(default=0)
-    total_blocks = models.PositiveIntegerField(default=0)
-    total_steals = models.PositiveIntegerField(default=0)
-    games_played = models.PositiveIntegerField(default=0)
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    season = models.ForeignKey(Season, on_delete=models.CASCADE, null=True)
+    total_points = models.PositiveIntegerField(default=0, null=True)
+    total_rebounds = models.PositiveIntegerField(default=0, null=True)
+    total_assists = models.PositiveIntegerField(default=0, null=True)
+    total_turnovers = models.PositiveIntegerField(default=0, null=True)
+    total_blocks = models.PositiveIntegerField(default=0, null=True)
+    total_steals = models.PositiveIntegerField(default=0, null=True)
+    games_played = models.PositiveIntegerField(default=0, null=True)

@@ -1,9 +1,40 @@
 {% extends 'base_generic.html' %}
 {% block content %}
-    <h2>Register</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+ <h2>Register</h2>
+
+ <!-- Buttons to select user type -->
+ <button onclick="showForm('admin')">Register as Administrator</button>
+ <button onclick="showForm('player')">Register as Player</button>
+
+ <!-- Registration forms -->
+ <div id="adminForm" style="display: none;">
+     <form method="post">
+         {% csrf_token %}
+         {{ user_form.as_p }}
+         {{ admin_form.as_p }}
+         <input type="hidden" name="user_type" value="administrator">
+         <button type="submit">Submit</button>
+     </form>
+ </div>
+
+ <div id="playerForm" style="display: none;">
+     <form method="post">
+         {% csrf_token %}
+         {{ user_form.as_p }}
+         {{ player_form.as_p }}
+         <input type="hidden" name="user_type" value="player">
+         <button type="submit">Submit</button>
+     </form>
+ </div>
+
+ <script>
+     function showForm(userType) {
+         // Hide all forms
+         document.getElementById('adminForm').style.display = 'none';
+         document.getElementById('playerForm').style.display = 'none';
+
+         // Show selected form
+         document.getElementById(userType + 'Form').style.display = 'block';
+     }
+ </script>
 {% endblock %}

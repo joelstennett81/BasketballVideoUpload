@@ -1,12 +1,18 @@
+from .models import Profile, PlayerGameStatistic, Season, PlayerSeasonStatistic, PlayerGameHighlightVideo, Game
 from django import forms
-from .models import Player, PlayerGameStatistic, Season, PlayerSeasonStatistic, PlayerGameHighlightVideo, Game
 
 
-class PlayerForm(forms.ModelForm):
+class AdminProfileForm(forms.ModelForm):
     class Meta:
-        model = Player
-        fields = ['first_name', 'last_name', 'height', 'weight', 'aau_team_name', 'high_school_team_name', 'birth_date',
-                  'high_school_graduation_year']
+        model = Profile
+        fields = ['first_name', 'last_name', 'birth_date']
+
+
+class PlayerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'birth_date', 'height_feet', 'height_inches', 'weight_in_lbs', 'city',
+                  'state', 'aau_team_name', 'high_school_team_name', 'high_school_graduation_year']
 
 
 class GameForm(forms.ModelForm):
