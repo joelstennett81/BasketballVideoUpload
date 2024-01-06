@@ -1,40 +1,31 @@
+from .models import Profile, PlayerGameHighlightVideo
 from django import forms
-from .models import Player, PlayerGameStatistic, Season, PlayerSeasonStatistic, PlayerGameHighlightVideo, Game
+import os
 
 
-class PlayerForm(forms.ModelForm):
+class AdminProfileForm(forms.ModelForm):
     class Meta:
-        model = Player
-        fields = ['first_name', 'last_name', 'height', 'weight', 'aau_team_name', 'high_school_team_name', 'birth_date',
-                  'high_school_graduation_year']
+        model = Profile
+        fields = ['first_name', 'last_name', 'birth_date']
 
 
-class GameForm(forms.ModelForm):
+class PlayerProfileForm(forms.ModelForm):
     class Meta:
-        model = Game
-        fields = ['season', 'date', 'team_one', 'team_two']
+        model = Profile
+        fields = ['first_name', 'last_name', 'birth_date', 'height_feet', 'height_inches', 'weight_in_lbs', 'city',
+                  'state', 'aau_team_name', 'high_school_team_name', 'high_school_graduation_year']
 
 
-class SeasonForm(forms.ModelForm):
-    class Meta:
-        model = Season
-        fields = ['season_type', 'season_start_date', 'season_end_date']
+def validate_video(value):
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.mp4', '.avi', '.mov', '.flv', '.wmv']
+    if not ext.lower() in valid_extensions:
+        raise forms.ValidationError('Unsupported file extension.')
 
 
 class PlayerGameHighlightVideoForm(forms.ModelForm):
+    video = forms.FileField(validators=[validate_video])
+
     class Meta:
         model = PlayerGameHighlightVideo
-        fields = ['player', 'game', 'video', 'video_name']
-
-
-class PlayerGameStatisticForm(forms.ModelForm):
-    class Meta:
-        model = PlayerGameStatistic
-        fields = ['game', 'player', 'points', 'rebounds', 'assists', 'turnovers', 'blocks', 'steals']
-
-
-class PlayerSeasonStatisticForm(forms.ModelForm):
-    class Meta:
-        model = PlayerSeasonStatistic
-        fields = ['player', 'season', 'total_points', 'total_rebounds', 'total_assists', 'total_turnovers',
-                  'total_blocks', 'total_steals', 'games_played']
+        fields = ['video', 'video_name', 'game_date', 'team_playing_for', 'team_playing_against']

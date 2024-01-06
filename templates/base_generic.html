@@ -21,28 +21,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'basketball_video_upload:list_players' %}">Players</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basketball_video_upload:list_games' %}">Games</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basketball_video_upload:list_seasons' %}">Seasons</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{% url 'basketball_video_upload:list_player_game_highlight_videos' %}">Player
-                            Game Highlight Videos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basketball_video_upload:list_player_game_statistics' %}">Player
-                            Game Statistics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'basketball_video_upload:list_player_season_statistics' %}">Player
-                            Season Statistics</a>
-                    </li>
+                    {% if request.user.profile.is_administrator %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'basketball_video_upload:list_all_players' %}">Players</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{% url 'basketball_video_upload:list_all_player_game_highlight_videos' %}">Player
+                                Game Highlight Videos</a>
+                        </li>
+                    {% elif request.user.profile.is_player %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'basketball_video_upload:show_profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'basketball_video_upload:list_personal_player_game_highlight_videos' %}">Personal
+                                Highlight Videos</a>
+                        </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'basketball_video_upload:logout' %}">Logout</a>
                     </li>

@@ -1,0 +1,27 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+   <div class="container mt-5">
+       <div class="row">
+           <div class="col-md-6 offset-md-3">
+               <div class="card">
+                  <div class="card-header">
+                      <h4>Profile Information</h4>
+                  </div>
+                  <div class="card-body">
+                      <p><strong>Name:</strong> {{ player.first_name }} {{ player.last_name }}</p>
+                      <p><strong>Height:</strong> {{ player.height_feet }} ft {{ player.height_inches }} in</p>
+                      <p><strong>Weight:</strong> {{ player.weight_in_lbs }} lbs</p>
+                      <p><strong>Location:</strong> {{ player.city }}, {{ player.state }}</p>
+                      <p><strong>AAU Team:</strong> {{ player.aau_team_name }}</p>
+                      <p><strong>High School Team:</strong> {{ player.high_school_team_name }}</p>
+                      <p><strong>Birth Date:</strong> {{ player.birth_date }}</p>
+                      <p><strong>High School Graduation Year:</strong> {{ player.high_school_graduation_year }}</p>
+                      <p><strong>Admin?:</strong> {{ player.is_administrator }}</p>
+                      <p><strong>Player?:</strong> {{ player.is_player }}</p>
+                  </div>
+               </div>
+           </div>
+       </div>
+   </div>
+{% endblock %}
