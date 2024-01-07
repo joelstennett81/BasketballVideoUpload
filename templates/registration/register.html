@@ -1,9 +1,23 @@
 {% extends 'base_generic.html' %}
 {% block content %}
-   <h2>Register</h2>
-   <form method="post">
-       {% csrf_token %}
-       {{ user_form.as_p }}
-       <button type="submit">Submit</button>
-   </form>
+    <div class="container">
+        <h2 class="text-center my-4">Register</h2>
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {% for field in user_form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 {% endblock %}

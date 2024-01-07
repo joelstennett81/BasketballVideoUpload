@@ -64,3 +64,6 @@ footer {
     object-fit: contain;
 }
 
+.helptext {
+    display: none;
+}
