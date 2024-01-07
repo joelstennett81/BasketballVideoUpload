@@ -9,10 +9,9 @@
 
         <script>
             window.onload = function () {
-                var videoUrl = "{{ video.video_url }}";
                 var videoPlayer = document.getElementById('fullscreen-video');
                 videoPlayer.style.display = 'block';
-                videoPlayer.src = videoUrl;
+                videoPlayer.src = "{{ video_url }}";
                 videoPlayer.play();
             }
         </script>

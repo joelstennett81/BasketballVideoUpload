@@ -35,5 +35,8 @@ class PlayerGameHighlightVideo(models.Model):
     team_playing_against = models.CharField(max_length=100, null=True)
 
     def save(self, *args, **kwargs):
-        self.s3_object_name = f'{self.player.first_name}_{self.player.last_name}/{self.video_name}'
+        self.video_name = self.video_name.replace(" ", "_")
+        print('self.video_name: ', self.video_name)
+        self.s3_object_name = f'{self.player.first_name}_{self.player.last_name}/{self.video_name.replace(" ", "_")}'
+        print('self.s3_object: ', self.s3_object_name)
         super().save(*args, **kwargs)

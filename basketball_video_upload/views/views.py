@@ -79,7 +79,7 @@ class AllPlayerGameHighlightVideoListView(View):
     def get(self, request):
         playerGameHighlightVideos = PlayerGameHighlightVideo.objects.all()
         return render(request, 'player_game_highlight_videos/list_all_player_game_highlight_videos.html',
-                      {'playerGameHighlightVideos': playerGameHighlightVideos})
+                      {'videos': playerGameHighlightVideos})
 
 
 class PersonalPlayerGameHighlightVideoListView(View):
@@ -102,8 +102,10 @@ class PersonalPlayerGameHighlightVideoListView(View):
 
 class IndividualPlayerHighlightVideoView(View):
     def get(self, request, video_id):
+        print('video id: ', video_id)
         video = get_object_or_404(PlayerGameHighlightVideo, id=video_id, player=request.user.profile)
         video_url = get_url_for_video(request, video.video_name)
+        print('final video url: ', video_url)
         return render(request, 'player_game_highlight_videos/individual_player_highlight_video.html',
                       {'video': video, 'video_url': video_url})
 
@@ -117,7 +119,8 @@ class PlayerGameHighlightVideoCreateView(CreateView):
     def form_valid(self, form):
         form.instance.player = self.request.user.profile
         form.instance.s3_object_name = f'{form.instance.player.first_name}_{form.instance.player.last_name}/{form.instance.video_name}'
-        upload_video_to_s3(self.request, form.cleaned_data["video"], form.instance.video_name)
+        video_name = form.instance.video_name.replace(" ", "_")
+        upload_video_to_s3(self.request, form.cleaned_data["video"], video_name)
         return super().form_valid(form)
 
 
@@ -125,6 +128,7 @@ def upload_video_to_s3(request, file, video_name):
     s3 = boto3.resource('s3', aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
                         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
     key = f'{request.user.profile.first_name}_{request.user.profile.last_name}/{video_name}'
+    print('key: ', key)
     print()
     s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME).put_object(Key=key, Body=file)
 
@@ -136,7 +140,9 @@ def get_url_for_video(request, video_name):
         'Key': str(video_name),
     }
     print('key: ', str(video_name))
+    print('video_name')
     url = 'https://' + settings.AWS_STORAGE_BUCKET_NAME + '.s3.us-east-2.amazonaws.com/' + request.user.profile.first_name + '_' + request.user.profile.last_name + '/' + video_name
+    print('url: ', url)
     return url
 
 

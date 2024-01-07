@@ -64,6 +64,3 @@ footer {
     object-fit: contain;
 }
 
-body > :not(.video-container) {
-    display: none;
-}
