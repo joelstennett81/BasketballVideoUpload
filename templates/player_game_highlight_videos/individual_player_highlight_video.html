@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="video-container">
+        <video id="fullscreen-video" width="1200" height="1600" style="display: none;" controls>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <script>
+            window.onload = function () {
+                var videoUrl = "{{ video.video_url }}";
+                var videoPlayer = document.getElementById('fullscreen-video');
+                videoPlayer.style.display = 'block';
+                videoPlayer.src = videoUrl;
+                videoPlayer.play();
+            }
+        </script>
+    </div>
+{% endblock %}

@@ -1,3 +1,4 @@
+from django.core.files.storage import default_storage
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -26,9 +27,13 @@ class Profile(models.Model):
 
 class PlayerGameHighlightVideo(models.Model):
     player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    video = models.FileField(upload_to='player_game_highlights/', null=True)
     video_name = models.CharField(max_length=100, null=True)
+    s3_object_name = models.CharField(max_length=1000, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
     game_date = models.DateField(null=True)
     team_playing_for = models.CharField(max_length=100,null=True)
     team_playing_against = models.CharField(max_length=100, null=True)
+
+    def save(self, *args, **kwargs):
+        self.s3_object_name = f'{self.player.first_name}_{self.player.last_name}/{self.video_name}'
+        super().save(*args, **kwargs)

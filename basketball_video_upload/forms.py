@@ -1,3 +1,5 @@
+from django.core.files.storage import default_storage
+
 from .models import Profile, PlayerGameHighlightVideo
 from django import forms
 import os
@@ -28,4 +30,4 @@ class PlayerGameHighlightVideoForm(forms.ModelForm):
 
     class Meta:
         model = PlayerGameHighlightVideo
-        fields = ['video', 'video_name', 'game_date', 'team_playing_for', 'team_playing_against']
+        fields = ['video_name', 'game_date', 'team_playing_for', 'team_playing_against']

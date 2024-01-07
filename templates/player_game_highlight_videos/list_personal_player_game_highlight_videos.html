@@ -7,20 +7,16 @@
         Create Player Game Highlight Video
     </button>
     <div class="row">
-        {% for playerGameHighlightVideo in playerGameHighlightVideos %}
+        {% for video in videos %}
             <tr>
-                <td>{{ playerGameHighlightVideo.player.first_name }} {{ player_game_stat.player.last_name }}</td>
-                <td>{{ playerGameHighlightVideo.game.date }}</td>
+                <td>{{ video.player.first_name }} {{ video.player.last_name }}</td>
+                <td>{{ video.game_date }}</td>
+                <td>{{ video.video_name }}</td>
+                <td>{{ video.uploaded_at }}</td>
                 <td>
-                    <video width="320" height="240" controls>
-                        <source src="{{ playerGameHighlightVideo.video.url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <a href="{% url 'basketball_video_upload:view_individual_player_highlight_video' video.id %}">Play</a>
                 </td>
-                <td>{{ playerGameHighlightVideo.video_name }}</td>
-                <td>{{ playerGameHighlightVideo.uploaded_at }}</td>
             </tr>
         {% endfor %}
-
     </div>
 {% endblock %}
