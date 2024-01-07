@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+    <form id="role-form" method="post">
+        {% csrf_token %}
+        {{ role_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    {% if profile_form %}
+        <form id="profile-form" method="post">
+            {% csrf_token %}
+            {{ profile_form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+{% endblock %}

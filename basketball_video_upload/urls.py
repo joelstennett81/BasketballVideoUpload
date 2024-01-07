@@ -1,25 +1,27 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from basketball_video_upload.views import views
+from basketball_video_upload.views import misc, players, admins
 
 app_name = 'basketball_video_upload'
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', misc.home, name='home'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('register/', views.register, name='register'),
-    path('show_profile/', views.ProfileView.as_view(), name='show_profile'),
-    path('list_all_players/', views.PlayerListView.as_view(), name='list_all_players'),
-    path('list_all_player_game_highlight_videos/', views.AllPlayerGameHighlightVideoListView.as_view(),
+    path('logout/', misc.logout_view, name='logout'),
+    path('register/', misc.register, name='register'),
+    path('choose_role/', misc.choose_role, name='choose_role'),
+    path('upload_profile/', misc.upload_profile, name='upload_profile'),
+    path('show_profile/', players.ProfileView.as_view(), name='show_profile'),
+    path('list_all_players/', admins.PlayerListView.as_view(), name='list_all_players'),
+    path('list_all_player_game_highlight_videos/', admins.AllPlayerGameHighlightVideoListView.as_view(),
          name='list_all_player_game_highlight_videos'),
-    path('list_personal_player_game_highlight_videos/', views.PersonalPlayerGameHighlightVideoListView.as_view(),
+    path('list_personal_player_game_highlight_videos/', players.PersonalPlayerGameHighlightVideoListView.as_view(),
          name='list_personal_player_game_highlight_videos'),
     path('view_individual_player_game_highlight_video/<int:video_id>/',
-         views.IndividualPlayerHighlightVideoView.as_view(),
+         players.IndividualPlayerHighlightVideoView.as_view(),
          name='view_individual_player_highlight_video'),
-    path('player_game_highlight_videos/new/', views.PlayerGameHighlightVideoCreateView.as_view(),
+    path('player_game_highlight_videos/new/', players.PlayerGameHighlightVideoCreateView.as_view(),
          name='create_player_game_highlight_video'),
     path('admin/', admin.site.urls),
 ]

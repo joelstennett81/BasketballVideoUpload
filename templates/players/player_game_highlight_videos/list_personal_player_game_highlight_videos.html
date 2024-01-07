@@ -1,0 +1,38 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Your Highlight Videos</h1>
+        <button onclick="window.location.href='{% url 'basketball_video_upload:create_player_game_highlight_video' %}';"
+                class="btn btn-primary create-btn">
+            Create Player Game Highlight Video
+        </button>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr>
+                <th scope="col">Player Name</th>
+                <th scope="col">Game Date</th>
+                <th scope="col">Video Name</th>
+                <th scope="col">Uploaded At</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for video in videos %}
+                <tr>
+                    <td>{{ video.player.first_name }} {{ video.player.last_name }}</td>
+                    <td>{{ video.game_date }}</td>
+                    <td>{{ video.video_name }}</td>
+                    <td>{{ video.uploaded_at }}</td>
+                    <td>
+                        <a href="{% url 'basketball_video_upload:view_individual_player_highlight_video' video.id %}"
+                           class="btn btn-success">Play</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,8 +1,10 @@
-from django.core.files.storage import default_storage
-
 from .models import Profile, PlayerGameHighlightVideo
 from django import forms
 import os
+
+
+class UserTypeForm(forms.Form):
+    user_type = forms.ChoiceField(choices=[('administrator', 'Administrator'), ('player', 'Player')])
 
 
 class AdminProfileForm(forms.ModelForm):
