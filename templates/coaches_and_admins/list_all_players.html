@@ -14,8 +14,6 @@
             <th>High School Team</th>
             <th>Birth Date</th>
             <th>High School Graduation Year</th>
-            <th>Admin?</th>
-            <th>Player?</th>
         </tr>
         </thead>
         <tbody>
@@ -29,9 +27,7 @@
                 <td>{{ player.aau_team_name }}</td>
                 <td>{{ player.high_school_team_name }}</td>
                 <td>{{ player.birth_date }}</td>
-                <td>{{ player.high_school_graduation_year }}</td>
-                <td>{{ player.is_administrator }}</td>
-                <td>{{ player.is_player }}</td>
+                <td>{{ player.high_school_graduation_year }}</td> 
             </tr>
         {% endfor %}
         </tbody>
