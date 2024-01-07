@@ -1,0 +1,18 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Everyone's Highlight Videos</h1>
+    <div class="row">
+        {% for video in videos %}
+            <tr>
+                <td>{{ video.player.first_name }} {{ video.player.last_name }}</td>
+                <td>{{ video.game_date }}</td>
+                <td>{{ video.video_name }}</td>
+                <td>{{ video.uploaded_at }}</td>
+                <td>
+                    <a href="{% url 'basketball_video_upload:view_individual_player_highlight_video' video.id %}">Play</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </div>
+{% endblock %}

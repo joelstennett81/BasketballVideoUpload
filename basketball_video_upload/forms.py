@@ -3,6 +3,10 @@ from django import forms
 import os
 
 
+class UserTypeForm(forms.Form):
+    user_type = forms.ChoiceField(choices=[('administrator', 'Administrator'), ('player', 'Player')])
+
+
 class AdminProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -28,4 +32,4 @@ class PlayerGameHighlightVideoForm(forms.ModelForm):
 
     class Meta:
         model = PlayerGameHighlightVideo
-        fields = ['video', 'video_name', 'game_date', 'team_playing_for', 'team_playing_against']
+        fields = ['video_name', 'game_date', 'team_playing_for', 'team_playing_against']
