@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from basketball_video_upload.views import misc, players, admins
+from basketball_video_upload.views import misc, players, coaches_and_admins
 
 app_name = 'basketball_video_upload'
 
@@ -13,8 +13,8 @@ urlpatterns = [
     path('choose_role/', misc.choose_role, name='choose_role'),
     path('upload_profile/', misc.upload_profile, name='upload_profile'),
     path('show_profile/', players.ProfileView.as_view(), name='show_profile'),
-    path('list_all_players/', admins.PlayerListView.as_view(), name='list_all_players'),
-    path('list_all_player_game_highlight_videos/', admins.AllPlayerGameHighlightVideoListView.as_view(),
+    path('list_all_players/', coaches_and_admins.PlayerListView.as_view(), name='list_all_players'),
+    path('list_all_player_game_highlight_videos/', coaches_and_admins.AllPlayerGameHighlightVideoListView.as_view(),
          name='list_all_player_game_highlight_videos'),
     path('list_personal_player_game_highlight_videos/', players.PersonalPlayerGameHighlightVideoListView.as_view(),
          name='list_personal_player_game_highlight_videos'),

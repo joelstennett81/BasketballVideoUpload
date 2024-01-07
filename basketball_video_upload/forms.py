@@ -4,19 +4,25 @@ import os
 
 
 class UserTypeForm(forms.Form):
-    user_type = forms.ChoiceField(choices=[('administrator', 'Administrator'), ('player', 'Player')])
+    user_type = forms.ChoiceField(choices=[('administrator', 'Administrator'), ('player', 'Player'), ('coach', 'Coach')])
 
 
 class AdminProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'birth_date']
+        fields = ['first_name', 'last_name', 'email_address']
+
+
+class CoachProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'email_address', 'team_coaching']
 
 
 class PlayerProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'birth_date', 'height_feet', 'height_inches', 'weight_in_lbs', 'city',
+        fields = ['first_name', 'last_name', 'email_address', 'height_feet', 'height_inches', 'weight_in_lbs', 'city',
                   'state', 'aau_team_name', 'high_school_team_name', 'high_school_graduation_year']
 
 

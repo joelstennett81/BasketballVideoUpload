@@ -22,3 +22,24 @@ def player_required(view_func):
             return HttpResponseForbidden()
 
     return _wrapped_view
+
+
+def coach_required(view_func):
+    @login_required
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.profile.is_coach:
+            return view_func(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+
+    return _wrapped_view
+
+def admin_or_coach_required(view_func):
+    @login_required
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.profile.is_coach or request.user.profile.is_administrator:
+            return view_func(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+
+    return _wrapped_view

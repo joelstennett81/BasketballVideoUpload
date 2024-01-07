@@ -7,9 +7,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_administrator = models.BooleanField(default=False)
     is_player = models.BooleanField(default=False)
-
+    is_coach = models.BooleanField(default=False)
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
+    email_address = models.EmailField(null=True)
     birth_date = models.DateField(null=True, blank=True)
     height_feet = models.PositiveIntegerField(null=True, blank=True)
     height_inches = models.PositiveIntegerField(null=True, blank=True)
@@ -19,6 +20,7 @@ class Profile(models.Model):
     aau_team_name = models.CharField(max_length=100, null=True, blank=True)
     high_school_team_name = models.CharField(max_length=100, null=True, blank=True)
     high_school_graduation_year = models.IntegerField(null=True, blank=True)
+    team_coaching = models.CharField(max_length=100, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.user = kwargs.pop('user', None) or self.user

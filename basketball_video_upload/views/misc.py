@@ -2,7 +2,7 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 
-from basketball_video_upload.forms import AdminProfileForm, PlayerProfileForm, UserTypeForm
+from basketball_video_upload.forms import AdminProfileForm, PlayerProfileForm, UserTypeForm, CoachProfileForm
 
 
 def home(request):
@@ -39,22 +39,32 @@ def choose_role(request):
             profile_form = AdminProfileForm()
         elif user_type == 'player':
             profile_form = PlayerProfileForm()
-
+        elif user_type == 'coach':
+            profile_form = CoachProfileForm()
         return redirect('basketball_video_upload:upload_profile')
 
     return render(request, 'registration/choose_role.html', {'role_form': role_form, 'profile_form': profile_form})
 
 
 def upload_profile(request):
-    profile_form = AdminProfileForm(request.POST or None) if request.session.get(
-        'user_type') == 'administrator' else PlayerProfileForm(request.POST or None)
-
+    user_type = request.session.get('user_type')
+    if user_type == 'administrator':
+        profile_form = AdminProfileForm(request.POST or None)
+    elif user_type == 'player':
+        profile_form = PlayerProfileForm(request.POST or None)
+    elif user_type == 'coach':
+        profile_form = CoachProfileForm(request.POST or None)
     if profile_form.is_valid():
         profile = profile_form.save(commit=False)
         profile.user = request.user
-        if request.session.get('user_type') == 'administrator':
+        if user_type == 'administrator':
             profile.is_administrator = True
             profile.is_player = False
+            profile.is_coach = False
+        elif user_type == 'coach':
+            profile.is_administrator = False
+            profile.is_player = False
+            profile.is_coach = True
         else:
             profile.is_administrator = False
             profile.is_player = True
