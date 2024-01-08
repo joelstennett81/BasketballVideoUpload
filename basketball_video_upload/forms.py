@@ -1,10 +1,11 @@
-from .models import Profile, PlayerGameHighlightVideo
+from .models import Profile, PlayerGameHighlightVideo, PlayerGameStatistic, Game
 from django import forms
 import os
 
 
 class UserTypeForm(forms.Form):
-    user_type = forms.ChoiceField(choices=[('administrator', 'Administrator'), ('player', 'Player'), ('coach', 'Coach')])
+    user_type = forms.ChoiceField(
+        choices=[('administrator', 'Administrator'), ('player', 'Player'), ('coach', 'Coach')])
 
 
 class AdminProfileForm(forms.ModelForm):
@@ -33,9 +34,21 @@ def validate_video(value):
         raise forms.ValidationError('Unsupported file extension.')
 
 
+class GameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['date']
+
+
 class PlayerGameHighlightVideoForm(forms.ModelForm):
     video = forms.FileField(validators=[validate_video])
 
     class Meta:
         model = PlayerGameHighlightVideo
-        fields = ['video_name', 'game_date', 'team_playing_for', 'team_playing_against']
+        fields = ['video_name', 'team_playing_for', 'team_playing_against']
+
+
+class PlayerGameStatisticForm(forms.ModelForm):
+    class Meta:
+        model = PlayerGameStatistic
+        fields = ['points', 'rebounds', 'assists', 'turnovers', 'blocks', 'steals']

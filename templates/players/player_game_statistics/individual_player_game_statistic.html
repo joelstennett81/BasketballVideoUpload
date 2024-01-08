@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Individual Player Game Statistic</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Game ID: {{ game_statistic.id }}</h5>
+                <p class="card-text">
+                    <strong>Points:</strong> {{ game_statistic.points }}<br>
+                    <strong>Rebounds:</strong> {{ game_statistic.rebounds }}<br>
+                    <strong>Assists:</strong> {{ game_statistic.assists }}<br>
+                    <strong>Turnovers:</strong> {{ game_statistic.turnovers }}<br>
+                    <strong>Blocks:</strong> {{ game_statistic.blocks }}<br>
+                    <strong>Steals:</strong> {{ game_statistic.steals }}<br>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">All Games</h1>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr>
+                <th scope="col">Game Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.date }}</td>
+                    <td>
+                        <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' game.id %}"
+                           class="btn btn-success">View
+                            Highlight Video</a>
+                        <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' game.id %}"
+                           class="btn btn-warning">View
+                            Statistics</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Personal Games</h1>
+        <button onclick="window.location.href='{% url 'basketball_video_upload:create_game' %}';"
+                class="btn btn-primary create-btn">
+            Create Game
+        </button>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr>
+                <th scope="col">Game Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.date }}</td>
+                    <td>
+                        <a href="{% url 'basketball_video_upload:create_player_game_highlight_video' game.id %}"
+                           class="btn btn-primary">Create
+                            Highlight Video</a>
+                        <a href="{% url 'basketball_video_upload:create_player_game_statistic' game.id %}"
+                           class="btn btn-info">Create
+                            Statistics</a>
+                        <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' game.id %}"
+                           class="btn btn-success">View
+                            Highlight Video</a>
+                        <a href="{% url 'basketball_video_upload:view_player_game_statistics' game.id %}"
+                           class="btn btn-warning">View
+                            Statistics</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

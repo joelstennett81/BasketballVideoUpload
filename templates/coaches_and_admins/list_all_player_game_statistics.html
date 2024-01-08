@@ -1,0 +1,37 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Your Game Statistics</h1>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr>
+                <th scope="col">Player Name</th>
+                <th scope="col">Game Date</th>
+                <th scope="col">Points</th>
+                <th scope="col">Rebounds</th>
+                <th scope="col">Assists</th>
+                <th scope="col">Turnovers</th>
+                <th scope="col">Blocks</th>
+                <th scope="col">Steals</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gameStat in gameStatistics %}
+                <tr>
+                    <td>{{ gameStat.player.first_name }} {{ gameStat.player.last_name }}</td>
+                    <td>{{ gameStat.game.date }}</td>
+                    <td>{{ gameStat.points }}</td>
+                    <td>{{ gameStat.rebounds }}</td>
+                    <td>{{ gameStat.assists }}</td>
+                    <td>{{ gameStat.turnovers }}</td>
+                    <td>{{ gameStat.blocks }}</td>
+                    <td>{{ gameStat.steals }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
