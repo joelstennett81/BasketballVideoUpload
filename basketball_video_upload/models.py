@@ -27,18 +27,33 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
 
+class Game(models.Model):
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    type = models.CharField(max_length=5, choices=[('AAU', 'AAU'), ('HS', 'High School')])
+
+
+class PlayerGameStatistic(models.Model):
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True, blank=True)
+    points = models.PositiveIntegerField(default=0)
+    rebounds = models.PositiveIntegerField(default=0)
+    assists = models.PositiveIntegerField(default=0)
+    turnovers = models.PositiveIntegerField(default=0)
+    blocks = models.PositiveIntegerField(default=0)
+    steals = models.PositiveIntegerField(default=0)
+
+
 class PlayerGameHighlightVideo(models.Model):
-    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
     video_name = models.CharField(max_length=100, null=True)
     s3_object_name = models.CharField(max_length=1000, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
-    game_date = models.DateField(null=True)
-    team_playing_for = models.CharField(max_length=100,null=True)
+    team_playing_for = models.CharField(max_length=100, null=True)
     team_playing_against = models.CharField(max_length=100, null=True)
 
     def save(self, *args, **kwargs):
         self.video_name = self.video_name.replace(" ", "_")
-        print('self.video_name: ', self.video_name)
         self.s3_object_name = f'{self.player.first_name}_{self.player.last_name}/{self.video_name.replace(" ", "_")}'
-        print('self.s3_object: ', self.s3_object_name)
         super().save(*args, **kwargs)
