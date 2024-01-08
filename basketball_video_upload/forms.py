@@ -37,7 +37,7 @@ def validate_video(value):
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ['date']
+        fields = ['date', 'type']
 
 
 class PlayerGameHighlightVideoForm(forms.ModelForm):

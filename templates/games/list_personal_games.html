@@ -11,6 +11,7 @@
             <thead>
             <tr>
                 <th scope="col">Game Date</th>
+                <th scope="col">League Type</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -18,22 +19,30 @@
             {% for game in games %}
                 <tr>
                     <td>{{ game.date }}</td>
+                    <td>{{ game.type }}</td>
                     <td>
-                        <a href="{% url 'basketball_video_upload:create_player_game_highlight_video' game.id %}"
-                           class="btn btn-primary">Create
-                            Highlight Video</a>
-                        <a href="{% url 'basketball_video_upload:create_player_game_statistic' game.id %}"
-                           class="btn btn-info">Create
-                            Statistics</a>
-                        <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' game.id %}"
-                           class="btn btn-success">View
-                            Highlight Video</a>
-                        <a href="{% url 'basketball_video_upload:view_player_game_statistics' game.id %}"
-                           class="btn btn-warning">View
-                            Statistics</a>
+                        {% if game.has_highlight == 0 %}
+                            <a href="{% url 'basketball_video_upload:create_player_game_highlight_video' game.id %}"
+                               class="btn btn-primary">Create
+                                Highlight Video</a>
+                        {% else %}
+                            <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' game.id %}"
+                               class="btn btn-success">View
+                                Highlight Video</a>
+                        {% endif %}
+                        {% if game.has_statistic == 0 %}
+                            <a href="{% url 'basketball_video_upload:create_player_game_statistic' game.id %}"
+                               class="btn btn-info">Create
+                                Statistics</a>
+                        {% else %}
+                            <a href="{% url 'basketball_video_upload:view_individual_player_game_statistic' game.id %}"
+                               class="btn btn-warning">View
+                                Statistics</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
+
             </tbody>
         </table>
     </div>

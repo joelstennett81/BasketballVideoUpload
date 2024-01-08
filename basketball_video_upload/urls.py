@@ -32,7 +32,7 @@ urlpatterns = [
          name='list_personal_player_game_statistics'),
     path('view_individual_player_game_statistic/<int:game_id>/',
          players.IndividualPlayerGameStatisticView.as_view(),
-         name='view_individual_player_statistic'),
+         name='view_individual_player_game_statistic'),
     path('player_game_statistics/new/<int:id>', players.PlayerGameStatisticCreateView.as_view(),
          name='create_player_game_statistic'),
     path('admin/', admin.site.urls),

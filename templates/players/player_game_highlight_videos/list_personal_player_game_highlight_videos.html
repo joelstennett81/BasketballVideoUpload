@@ -19,11 +19,11 @@
             {% for video in videos %}
                 <tr>
                     <td>{{ video.player.first_name }} {{ video.player.last_name }}</td>
-                    <td>{{ video.game.date }}</td>
+                    <td>{{ video.game_date }}</td>
                     <td>{{ video.video_name }}</td>
                     <td>{{ video.uploaded_at }}</td>
                     <td>
-                        <a href="{% url 'basketball_video_upload:view_individual_player_highlight_video' video.id %}"
+                        <a href="{% url 'basketball_video_upload:view_individual_player_game_highlight_video' video.id %}"
                            class="btn btn-success">Play</a>
                     </td>
                 </tr>

@@ -30,6 +30,7 @@ class Profile(models.Model):
 class Game(models.Model):
     player = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
+    type = models.CharField(max_length=5, choices=[('AAU', 'AAU'), ('HS', 'High School')])
 
 
 class PlayerGameStatistic(models.Model):
@@ -54,7 +55,5 @@ class PlayerGameHighlightVideo(models.Model):
 
     def save(self, *args, **kwargs):
         self.video_name = self.video_name.replace(" ", "_")
-        print('self.video_name: ', self.video_name)
         self.s3_object_name = f'{self.player.first_name}_{self.player.last_name}/{self.video_name.replace(" ", "_")}'
-        print('self.s3_object: ', self.s3_object_name)
         super().save(*args, **kwargs)

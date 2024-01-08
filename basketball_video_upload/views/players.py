@@ -39,10 +39,8 @@ class PersonalPlayerGameHighlightVideoListView(View):
 @method_decorator(player_required, name='get')
 class IndividualPlayerHighlightVideoView(View):
     def get(self, request, video_id):
-        print('video id: ', video_id)
         video = get_object_or_404(PlayerGameHighlightVideo, id=video_id, player=request.user.profile)
         video_url = get_url_for_video(request, video.video_name)
-        print('final video url: ', video_url)
         return render(request, 'players/player_game_highlight_videos/individual_player_highlight_video.html',
                       {'video': video, 'video_url': video_url})
 
@@ -77,7 +75,7 @@ class PlayerGameStatisticCreateView(CreateView):
     model = PlayerGameStatistic
     form_class = PlayerGameStatisticForm
     template_name = 'players/player_game_statistics/new_player_game_statistics.html'
-    success_url = '/list_player_game_statistics/'
+    success_url = '/list_personal_player_game_statistics/'
 
     def form_valid(self, form):
         game_id = self.kwargs['id']
