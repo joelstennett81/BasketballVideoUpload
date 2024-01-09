@@ -67,3 +67,19 @@ footer {
 .helptext {
     display: none;
 }
+
+.my-icon {
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px; /* adjust as needed */
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* adjust as needed */
+}

@@ -1,10 +1,55 @@
 {% extends "base_generic.html" %}
-
+{% load static %}
 {% block title %}
-  Home Page
+    Home Page
 {% endblock %}
 
 {% block content %}
-  <h1>Welcome to the Basketball Video Upload Application</h1>
-  <p>This application allows you to upload and manage highlight videos of basketball games.</p>
+    <div class="container">
+        <div class="header text-center">
+            <h1>Welcome to the Basketball Video Upload Application</h1>
+            <p>This application allows you to upload and manage highlight videos of basketball games.</p>
+        </div>
+        <div class="icons d-flex justify-content-center">
+            {% if request.user.is_authenticated %}
+                {% if request.user.profile.is_administrator %}
+                    <a href="{% url 'basketball_video_upload:list_all_players' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Players">
+                        <img src="{% static 'icons/players.png' %}" alt="Icon" class="my-icon">
+                    </a>
+                    <a href="{% url 'basketball_video_upload:list_all_games' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Games">
+                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                    </a>
+
+                {% elif request.user.profile.is_coach %}
+                    <a href="{% url 'basketball_video_upload:list_all_players' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Players">
+                        <img src="{% static 'icons/players.png' %}" alt="Icon" class="my-icon">
+                    </a>
+                    <a href="{% url 'basketball_video_upload:list_all_games' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Games">
+                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                    </a>
+
+                {% elif request.user.profile.is_player %}
+                    <a href="{% url 'basketball_video_upload:show_profile' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Profile">
+                        <img src="{% static 'icons/profile.png' %}" alt="Icon" class="my-icon">
+
+                    </a>
+                    <a href="{% url 'basketball_video_upload:list_personal_games' %}" data-toggle="tooltip"
+                       data-placement="top"
+                       title="Games">
+                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
