@@ -41,6 +41,7 @@ class IndividualPlayerHighlightVideoView(View):
     def get(self, request, video_id):
         video = get_object_or_404(PlayerGameHighlightVideo, id=video_id, player=request.user.profile)
         video_url = get_url_for_video(request, video.video_name)
+        print('videourl: ', video_url)
         return render(request, 'players/player_game_highlight_videos/individual_player_highlight_video.html',
                       {'video': video, 'video_url': video_url})
 
