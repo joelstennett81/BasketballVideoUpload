@@ -16,37 +16,37 @@
                     <a href="{% url 'basketball_video_upload:list_all_players' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Players">
-                        <img src="{% static 'icons/players.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/players.png' %}" alt="Icon" class="my-icon">
                     </a>
                     <a href="{% url 'basketball_video_upload:list_all_games' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Games">
-                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/games.png' %}" alt="Icon" class="my-icon">
                     </a>
 
                 {% elif request.user.profile.is_coach %}
                     <a href="{% url 'basketball_video_upload:list_all_players' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Players">
-                        <img src="{% static 'icons/players.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/players.png' %}" alt="Icon" class="my-icon">
                     </a>
                     <a href="{% url 'basketball_video_upload:list_all_games' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Games">
-                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/games.png' %}" alt="Icon" class="my-icon">
                     </a>
 
                 {% elif request.user.profile.is_player %}
                     <a href="{% url 'basketball_video_upload:show_profile' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Profile">
-                        <img src="{% static 'icons/profile.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/profile.png' %}" alt="Icon" class="my-icon">
 
                     </a>
                     <a href="{% url 'basketball_video_upload:list_personal_games' %}" data-toggle="tooltip"
                        data-placement="top"
                        title="Games">
-                        <img src="{% static 'icons/games.png' %}" alt="Icon" class="my-icon">
+                        <img src="{% static 'basketball_video_upload/icons/games.png' %}" alt="Icon" class="my-icon">
                     </a>
                 {% endif %}
             {% endif %}
