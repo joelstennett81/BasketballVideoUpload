@@ -1,0 +1,5 @@
+{
+  "routes": {
+    "/static/*": "static/staticfiles/*"
+  }
+}
